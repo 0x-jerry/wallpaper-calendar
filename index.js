@@ -162,10 +162,11 @@ function weatherCallback(responses) {
       return node
     }
 
-    function createTd(text, active) {
+    function createTd(text, active, classes = []) {
       const node = document.createElement('td')
       node.innerText = text
 
+      node.classList.add(...classes)
       if (active) {
         node.classList.add('active')
       }
@@ -182,19 +183,28 @@ function weatherCallback(responses) {
     let weekday = dayjs(date.year() + '-' + (date.month() + 1)).day()
 
     while (weekday-- > 0) {
-      calendarDays.unshift(lastDayInLastMonth--)
+      calendarDays.unshift({
+        value: lastDayInLastMonth--,
+        classes: ['secondary-color']
+      })
     }
 
     for (let i = 1; i <= date.daysInMonth(); i++) {
-      calendarDays.push(i)
+      calendarDays.push({
+        value: i,
+        classes: []
+      })
     }
 
     for (let i = 1; ; i++) {
-      // week * 6
+      // col * weekday
       if (calendarDays.length === 6 * 7) {
         break
       }
-      calendarDays.push(i)
+      calendarDays.push({
+        value: i,
+        classes: ['secondary-color']
+      })
     }
 
     // create dom
@@ -208,12 +218,12 @@ function weatherCallback(responses) {
       tr.appendChild(th)
     })
 
-    calendarDays.forEach((day, idx) => {
+    calendarDays.forEach((info, idx) => {
       if (idx % 7 === 0) {
         tr = createTr()
         tableChildren.push(tr)
       }
-      tr.appendChild(createTd(day, day === date.date()))
+      tr.appendChild(createTd(info.value, info.value === date.date(), info.classes))
     })
 
     tableChildren.forEach((node) => {
