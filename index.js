@@ -1,7 +1,9 @@
 function weatherCallback(responses) {
   const res = responses.results[0]
   const domTemperature = document.getElementById('temperature')
-  domTemperature.innerText = _config_.weather.city + ' ~ ' + res.now.temperature + ' °C'
+  const city = 'test'
+
+  domTemperature.innerText = city + ' ~ ' + res.now.temperature + ' °C'
 
   if (res.last_update_time) {
     console.log('from cache', res)
@@ -65,12 +67,17 @@ function weatherCallback(responses) {
     }
   }
 
-  function getWeather() {
+  async function getWeather() {
     let info = localStorage.getItem('weather/update/time')
+
     try {
       info = JSON.parse(info || '{}')
     } catch (error) {
       info = {}
+    }
+
+    if (!_config_.weather.key) {
+      return console.warn('Please input weather key and secret: https://www.seniverse.com')
     }
 
     const updateRate = 1000 * _config_.weather.updateRate
@@ -80,9 +87,15 @@ function weatherCallback(responses) {
     if (new Date().getTime() - lastUpdateTime < updateRate) {
       weatherCallback({ results: [info] })
     } else {
+      let city = _config_.weather.city
+
+      if (typeof city === 'function') {
+        city = await _config_.weather.city()
+      }
+
       const s = new Seniverse(_config_.weather.key, _config_.weather.secret, {
         api: 'now',
-        location: _config_.weather.city,
+        location: city,
         callback: 'weatherCallback'
       })
 
