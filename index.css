@@ -1,0 +1,70 @@
+html,
+body {
+  font-family: 'Alegreya Sans', sans-serif;
+  font-size: 16px;
+}
+
+* {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+
+:root {
+  --color-primary: #f25626;
+}
+
+.primary-color {
+  color: var(--color-primary);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex: 1;
+}
+
+.flex-l {
+  flex: 0;
+}
+
+.flex-r {
+  flex: 1;
+}
+
+.text-r {
+  text-align: right;
+}
+
+.calendar-box {
+  width: 500px;
+  margin: auto;
+  margin-top: 200px;
+  padding: 50px;
+  box-shadow: 0 5px 10px rgba(128, 128, 128, 0.3);
+  border-radius: 25px;
+}
+
+.time,
+.temperature {
+  font-size: 2.2em;
+}
+
+.picture {
+  overflow: hidden;
+}
+
+tbale.calendar-table {
+}
+
+.calendar-table tr {
+  margin-top: 20px;
+}
+
+.calendar-table th {
+}
+
+.calendar-table td {
+}
