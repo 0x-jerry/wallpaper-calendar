@@ -1,0 +1,127 @@
+html,
+body {
+  font-family: 'Alegreya Sans', sans-serif;
+  font-size: 16px;
+}
+
+* {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+:root {
+  --color-primary: #f25626;
+  --calendar-width: 800px;
+}
+
+.primary-color {
+  color: var(--color-primary);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex: 1;
+}
+
+.flex-l {
+  flex: 0;
+}
+
+.flex-r {
+  flex: 1;
+}
+
+.text-r {
+  text-align: right;
+}
+
+.calendar {
+  &-wrapper {
+    width: var(--calendar-width);
+    margin: 200px auto 0;
+
+    transform-style: preserve-3d;
+    perspective: 800px;
+    perspective-origin: center;
+  }
+
+  &-box {
+    padding: 40px;
+    box-shadow: 0 5px 10px rgba(128, 128, 128, 0.5);
+    border-radius: 25px;
+    transition: .4s;
+    --rx: 0deg;
+    --ry: 0deg;
+
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+  }
+
+  &-date {
+    letter-spacing: 5px;
+    font-weight: normal;
+
+    sub {
+      letter-spacing: 1px;
+      font-weight: lighter;
+    }
+  }
+
+  &-time,
+  &-temperature {
+    font-size: 2.2em;
+    font-weight: lighter;
+  }
+
+  &-picture {
+    object-fit: scale-down;
+    overflow: hidden;
+    display: block;
+    margin: auto;
+  }
+
+  &-table {
+    th,
+    tr {
+      text-align: center;
+    }
+
+    tr {
+      margin-top: 20px;
+    }
+
+    th {
+      font-size: small;
+      padding: 0 5px;
+      color: gray;
+      font-weight: normal;
+    }
+
+    th,
+    td {
+      &.active {
+        color: black;
+        font-weight: bold;
+        position: relative;
+
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          border-radius: 50%;
+          background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0),
+            rgba(242, 86, 38, 0.9) 20% 80%,
+            rgba(255, 255, 255, 0)
+          );
+        }
+      }
+    }
+  }
+}
