@@ -1,9 +1,8 @@
 function weatherCallback(responses) {
   const res = responses.results[0]
   const domTemperature = document.getElementById('temperature')
-  const city = 'test'
 
-  domTemperature.innerText = city + ' ~ ' + res.now.temperature + ' °C'
+  domTemperature.innerText = res.location.name + ' ~ ' + res.now.temperature + ' °C'
 
   if (res.last_update_time) {
     console.log('from cache', res)
@@ -34,7 +33,7 @@ function weatherCallback(responses) {
       }
       const defaultOptions = {
         api: 'now',
-        language: 'zh-Hans',
+        language: 'en',
         location: 'chengdu',
         ttl: 1800,
         unit: 'c',

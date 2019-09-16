@@ -1,23 +1,9 @@
-function getLocation() {
-  return new Promise((resolve) => {
-    if (!navigator.geolocation) {
-      return resolve('chengdu')
-    }
-
-    navigator.geolocation.getCurrentPosition((position) => {
-      resolve(position.coords.latitude + ':' + position.coords.longitude)
-    })
-  })
-}
-
 const _config_ = {
   weather: {
-    // key: 'PCUv2FSkTZBUDcJCv',
-    // secret: 'SUq-vYUmoASwudfYi',
-    key: '',
-    secret: '',
+    key: 'PtQpA4GDySVurAZXo',
+    secret: 'SfqiClugXoaw-O_tG',
     // Latitude: longitude
-    city: getLocation,
+    city: 'ip',
     // seconds
     updateRate: 30 * 60
   },
