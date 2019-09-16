@@ -9,48 +9,57 @@
     <title>Calendar</title>
   </head>
   <body>
-    <h2 class="copyright-tip">
-      Designed by
-      <a
-        class="primary-color"
-        target="_blank"
-        href="https://dribbble.com/shots/2471798-Daily-UI-challenge-038-Calendar?utm_source=Clipboard_Shot&utm_campaign=CaFa&utm_content=Daily%20UI%20challenge%20%23038%20%E2%80%94%20Calendar&utm_medium=Social_Share"
-      >
-        Alexander Cafa - Calendar
-      </a>
-      , Implemented by
-      <a href="https://github.com/cwxyz007" target="_blank" class="primary-color">Fantasy</a>
-      , Source code
-      <a class="primary-color" target="_blank" href="https://github.com/cwxyz007/wallpaper-calendar">Github</a>
-    </h2>
-    <div class="calendar-wrapper" id="calendar-viewer">
-      <div class="calendar-box" id="calendar-box">
-        <div class="row">
-          <h1 class="primary-color calendar-date">
-            SEPTEMBER
-            <sub>2019</sub>
-          </h1>
+    <div class="viewer" id="viewer">
+      <div class="viewer-content flex">
+        <div class="copyright-tip card-box flex-l">
+          <h2>
+            Designed by
+            <a
+              class="primary-color"
+              target="_blank"
+              href="https://dribbble.com/shots/2471798-Daily-UI-challenge-038-Calendar?utm_source=Clipboard_Shot&utm_campaign=CaFa&utm_content=Daily%20UI%20challenge%20%23038%20%E2%80%94%20Calendar&utm_medium=Social_Share"
+            >
+              Alexander Cafa - Calendar
+            </a>
+          </h2>
+          <h2>
+            Implemented by
+            <a href="https://github.com/cwxyz007" target="_blank" class="primary-color">Fantasy</a>
+          </h2>
+          <h2>
+            Source code
+            <a class="primary-color" target="_blank" href="https://github.com/cwxyz007/wallpaper-calendar">Github</a>
+          </h2>
         </div>
-        <div class="row flex">
-          <div class="flex-col">
-            <div class="calendar">
-              <table class="calendar-table" id="calendar-table"></table>
+        <div class="calendar-box card-box flex-r">
+          <div class="row">
+            <h1 class="primary-color calendar-date">
+              SEPTEMBER
+              <sub>2019</sub>
+            </h1>
+          </div>
+          <div class="row flex">
+            <div class="flex-col">
+              <div class="calendar">
+                <table class="calendar-table" id="calendar-table"></table>
+              </div>
+            </div>
+            <div class="flex-col">
+              <img class="calendar-picture" src="./img.png" />
             </div>
           </div>
-          <div class="flex-col">
-            <img class="calendar-picture" src="./img.png" />
-          </div>
-        </div>
-        <div class="row flex">
-          <div class="flex-l">
-            <span id="time" class="calendar-time primary-color"></span>
-          </div>
-          <div class="flex-r text-r">
-            <span id="temperature" class="calendar-temperature primary-color"></span>
+          <div class="row flex">
+            <div class="flex-l">
+              <span id="time" class="calendar-time primary-color"></span>
+            </div>
+            <div class="flex-r text-r">
+              <span id="temperature" class="calendar-temperature primary-color"></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
     <script src="https://cdn.bootcss.com/less.js/3.10.3/less.min.js"></script>
     <script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
     <script src="https://cdn.bootcss.com/crypto-js/3.1.9/crypto-js.min.js"></script>

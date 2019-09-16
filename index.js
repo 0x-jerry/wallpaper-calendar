@@ -124,29 +124,6 @@ function weatherCallback(responses) {
     domTime.innerText = hour + ':' + minute + ':' + second
   }
 
-  function resetCalendarRotate() {
-    domCalendarBox.style.setProperty('--rx', viewerOptions.rx + 'deg')
-    domCalendarBox.style.setProperty('--ry', viewerOptions.ry + 'deg')
-  }
-
-  function updateCalendarBoxRotate(e) {
-    const width = window.innerWidth / 2
-    const height = window.innerHeight / 2
-    const unit = 10
-    let x = e.clientX
-    let y = e.clientY
-
-    x = ((x - width) / width) * unit
-    y = ((y - height) / height) * unit
-
-    const rx = viewerOptions.rx + y
-
-    const ry = viewerOptions.ry - x
-
-    domCalendarBox.style.setProperty('--rx', rx + 'deg')
-    domCalendarBox.style.setProperty('--ry', ry + 'deg')
-  }
-
   function updateCalendarTable() {
     function createTr() {
       return document.createElement('tr')
@@ -231,21 +208,42 @@ function weatherCallback(responses) {
     })
   }
 
-  const domTime = document.getElementById('time')
-  const domCalendarBox = document.getElementById('calendar-box')
-  const domCalendarTable = document.getElementById('calendar-table')
-  const viewerOptions = {
-    rx: _config_.calendar.rx,
-    ry: _config_.calendar.ry
+  /**
+   *
+   * @param {MouseEvent} e
+   */
+  function updateViewer(e) {
+    updateViewerView(e.clientX, e.clientY)
   }
+
+  function updateViewerView(x = 'center', y = 'center', width = window.innerWidth * 2) {
+    domViewer.style.setProperty('--view-width', width + 'px')
+
+    x = typeof x === 'number' ? x + 'px' : x
+    y = typeof y === 'number' ? y + 'px' : y
+
+    domViewer.style.setProperty('--origin-x', x)
+    domViewer.style.setProperty('--origin-y', y)
+  }
+
+  const domViewer = document.getElementById('viewer')
+  const domTime = document.getElementById('time')
+  const domCalendarTable = document.getElementById('calendar-table')
+  updateViewerView()
+
+  const nodes = document.getElementsByClassName('card-box')
+  const viewerUpdateRate = 100
+  
+  for (const node of nodes) {
+    node.onmousemove = _.throttle(updateViewer, viewerUpdateRate)
+    node.onmouseleave = () => setTimeout(() => updateViewerView(), viewerUpdateRate + 10)
+  }
+
+  document.onmouseleave = () => setTimeout(() => updateViewerView(), viewerUpdateRate + 10)
 
   setInterval(() => {
     updateTime()
   }, 1000)
-
-  resetCalendarRotate()
-  domCalendarBox.onmousemove = _.throttle(updateCalendarBoxRotate, 100)
-  domCalendarBox.onmouseleave = (e) => setTimeout(() => resetCalendarRotate(), 200)
 
   updateTime()
   getWeather()
