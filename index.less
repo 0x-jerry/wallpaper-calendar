@@ -18,6 +18,10 @@ body {
   color: var(--color-primary);
 }
 
+.secondary-color {
+  color: #cccccc;
+}
+
 .flex {
   display: flex;
 }
@@ -38,6 +42,13 @@ body {
   text-align: right;
 }
 
+.row {
+
+  & + & {
+    margin-top: 20px;
+  }
+}
+
 .calendar {
   &-wrapper {
     width: var(--calendar-width);
@@ -52,7 +63,7 @@ body {
     padding: 40px;
     box-shadow: 0 5px 10px rgba(128, 128, 128, 0.5);
     border-radius: 25px;
-    transition: .4s;
+    transition: 0.4s;
     --rx: 0deg;
     --ry: 0deg;
 
@@ -62,6 +73,7 @@ body {
   &-date {
     letter-spacing: 5px;
     font-weight: normal;
+    margin: 0;
 
     sub {
       letter-spacing: 1px;
@@ -83,6 +95,10 @@ body {
   }
 
   &-table {
+    position: relative;
+    left: -14px;
+    border-spacing: 14px 20px;
+
     th,
     tr {
       text-align: center;

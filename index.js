@@ -52,7 +52,7 @@
 
   const domTime = document.getElementById('time')
   const domCalendarBox = document.getElementById('calendar-box')
-  const domCalendarViewer = document.getElementById('calendar-viewer')
+  const domCalendarTable = document.getElementById('calendar-table')
 
   function updateTime() {
     const date = new Date()
@@ -88,29 +88,26 @@
   }
   resetCalendarRotate()
 
-  domCalendarBox.onmousemove = _.throttle((e) => {
+  function updateCalendarBoxRotate(e) {
     const width = window.innerWidth / 2
     const height = window.innerHeight / 2
     const unit = 10
-    let y = e.clientX
-    let x = e.clientY
+    let x = e.clientX
+    let y = e.clientY
 
     x = ((x - width) / width) * unit
     y = ((y - height) / height) * unit
 
-    x = viewerOptions.rx + x
+    const rx = viewerOptions.rx + y
 
-    y = viewerOptions.ry - y
+    const ry = viewerOptions.ry - x
 
-    domCalendarBox.style.setProperty('--rx', x + 'deg')
-    domCalendarBox.style.setProperty('--ry', y + 'deg')
-  }, 100)
-
-  domCalendarBox.onmouseleave = (e) => {
-    setTimeout(() => {
-      resetCalendarRotate()
-    }, 200)
+    domCalendarBox.style.setProperty('--rx', rx + 'deg')
+    domCalendarBox.style.setProperty('--ry', ry + 'deg')
   }
+
+  domCalendarBox.onmousemove = _.throttle(updateCalendarBoxRotate, 100)
+  domCalendarBox.onmouseleave = (e) => setTimeout(() => resetCalendarRotate(), 200)
 
   function getWeather() {
     let info = localStorage.getItem('weather/update/time')
