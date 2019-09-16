@@ -147,6 +147,80 @@ function weatherCallback(responses) {
     domCalendarBox.style.setProperty('--ry', ry + 'deg')
   }
 
+  function updateCalendarTable() {
+    function createTr() {
+      return document.createElement('tr')
+    }
+
+    function createTh(text, active) {
+      const node = document.createElement('th')
+      node.innerText = text
+
+      if (active) {
+        node.classList.add('active')
+      }
+      return node
+    }
+
+    function createTd(text, active) {
+      const node = document.createElement('td')
+      node.innerText = text
+
+      if (active) {
+        node.classList.add('active')
+      }
+      return node
+    }
+
+    const date = dayjs()
+
+    const lastMonth = dayjs().subtract(date.date(), 'day')
+    const calendarDays = []
+
+    let lastDayInLastMonth = lastMonth.daysInMonth()
+
+    let weekday = dayjs(date.year() + '-' + (date.month() + 1)).day()
+
+    while (weekday-- > 0) {
+      calendarDays.unshift(lastDayInLastMonth--)
+    }
+
+    for (let i = 1; i <= date.daysInMonth(); i++) {
+      calendarDays.push(i)
+    }
+
+    for (let i = 1; ; i++) {
+      // week * 6
+      if (calendarDays.length === 6 * 7) {
+        break
+      }
+      calendarDays.push(i)
+    }
+
+    // create dom
+    let tableChildren = []
+    tr = createTr()
+    tableChildren.push(tr)
+
+    const weekStr = ['SUN', 'MON', 'THE', 'WED', 'THU', 'FRI', 'SAT']
+    weekStr.forEach((weekday, idx) => {
+      const th = createTh(weekday, idx === date.day())
+      tr.appendChild(th)
+    })
+
+    calendarDays.forEach((day, idx) => {
+      if (idx % 7 === 0) {
+        tr = createTr()
+        tableChildren.push(tr)
+      }
+      tr.appendChild(createTd(day, day === date.date()))
+    })
+
+    tableChildren.forEach((node) => {
+      domCalendarTable.appendChild(node)
+    })
+  }
+
   const domTime = document.getElementById('time')
   const domCalendarBox = document.getElementById('calendar-box')
   const domCalendarTable = document.getElementById('calendar-table')
@@ -163,5 +237,7 @@ function weatherCallback(responses) {
   domCalendarBox.onmousemove = _.throttle(updateCalendarBoxRotate, 100)
   domCalendarBox.onmouseleave = (e) => setTimeout(() => resetCalendarRotate(), 200)
 
+  updateTime()
   getWeather()
+  updateCalendarTable()
 })()
