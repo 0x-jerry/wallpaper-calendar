@@ -115,12 +115,12 @@
   function getWeather() {
     let info = localStorage.getItem('weather/update/time')
     try {
-      info = JSON.parse(info)
+      info = JSON.parse(info || '{}')
     } catch (error) {
       info = {}
     }
 
-    const updateRate = 1000 * 60
+    const updateRate = 1000 * _config_.weather.updateRate
 
     const lastUpdateTime = +info.last_update_time || 0
 
