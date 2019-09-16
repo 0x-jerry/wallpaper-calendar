@@ -1,3 +1,18 @@
+function weatherCallback(responses) {
+  const res = responses.results[0]
+  const domTemperature = document.getElementById('temperature')
+  domTemperature.innerText = _config_.weather.city + ' ~ ' + res.now.temperature + ' °C'
+
+  if (res.last_update_time) {
+    console.log('from cache', res)
+  } else {
+    console.log('from new request', res)
+    res.last_update_time = new Date().getTime()
+  }
+
+  localStorage.setItem('weather/update/time', JSON.stringify(res))
+}
+
 ;(() => {
   class Seniverse {
     // https://github.com/seanhuai/seniverse-jsonp
@@ -50,65 +65,6 @@
     }
   }
 
-  const domTime = document.getElementById('time')
-  const domCalendarBox = document.getElementById('calendar-box')
-  const domCalendarTable = document.getElementById('calendar-table')
-
-  function updateTime() {
-    const date = new Date()
-    const hour = date
-      .getHours()
-      .toString()
-      .padStart(2, 0)
-    const minute = date
-      .getMinutes()
-      .toString()
-      .padStart(2, 0)
-    const second = date
-      .getSeconds()
-      .toString()
-      .padStart(2, 0)
-
-    domTime.innerText = hour + ':' + minute + ':' + second
-  }
-
-  setInterval(() => {
-    updateTime()
-  }, 1000)
-
-  const viewerOptions = {
-    rx: 0,
-    // ry: -18
-    ry: 0
-  }
-
-  function resetCalendarRotate() {
-    domCalendarBox.style.setProperty('--rx', viewerOptions.rx + 'deg')
-    domCalendarBox.style.setProperty('--ry', viewerOptions.ry + 'deg')
-  }
-  resetCalendarRotate()
-
-  function updateCalendarBoxRotate(e) {
-    const width = window.innerWidth / 2
-    const height = window.innerHeight / 2
-    const unit = 10
-    let x = e.clientX
-    let y = e.clientY
-
-    x = ((x - width) / width) * unit
-    y = ((y - height) / height) * unit
-
-    const rx = viewerOptions.rx + y
-
-    const ry = viewerOptions.ry - x
-
-    domCalendarBox.style.setProperty('--rx', rx + 'deg')
-    domCalendarBox.style.setProperty('--ry', ry + 'deg')
-  }
-
-  domCalendarBox.onmousemove = _.throttle(updateCalendarBoxRotate, 100)
-  domCalendarBox.onmouseleave = (e) => setTimeout(() => resetCalendarRotate(), 200)
-
   function getWeather() {
     let info = localStorage.getItem('weather/update/time')
     try {
@@ -138,20 +94,62 @@
     }, updateRate + 10 * 1000)
   }
 
-  getWeather()
-})()
+  function updateTime() {
+    const date = new Date()
+    const hour = date
+      .getHours()
+      .toString()
+      .padStart(2, 0)
+    const minute = date
+      .getMinutes()
+      .toString()
+      .padStart(2, 0)
+    const second = date
+      .getSeconds()
+      .toString()
+      .padStart(2, 0)
 
-function weatherCallback(responses) {
-  const res = responses.results[0]
-  const domTemperature = document.getElementById('temperature')
-  domTemperature.innerText = _config_.weather.city + ' - ' + res.now.temperature + ' °C'
-
-  if (res.last_update_time) {
-    console.log('from cache', res)
-  } else {
-    console.log('new', res)
-    res.last_update_time = new Date().getTime()
+    domTime.innerText = hour + ':' + minute + ':' + second
   }
 
-  localStorage.setItem('weather/update/time', JSON.stringify(res))
-}
+  function resetCalendarRotate() {
+    domCalendarBox.style.setProperty('--rx', viewerOptions.rx + 'deg')
+    domCalendarBox.style.setProperty('--ry', viewerOptions.ry + 'deg')
+  }
+
+  function updateCalendarBoxRotate(e) {
+    const width = window.innerWidth / 2
+    const height = window.innerHeight / 2
+    const unit = 10
+    let x = e.clientX
+    let y = e.clientY
+
+    x = ((x - width) / width) * unit
+    y = ((y - height) / height) * unit
+
+    const rx = viewerOptions.rx + y
+
+    const ry = viewerOptions.ry - x
+
+    domCalendarBox.style.setProperty('--rx', rx + 'deg')
+    domCalendarBox.style.setProperty('--ry', ry + 'deg')
+  }
+
+  const domTime = document.getElementById('time')
+  const domCalendarBox = document.getElementById('calendar-box')
+  const domCalendarTable = document.getElementById('calendar-table')
+  const viewerOptions = {
+    rx: _config_.calendar.rx,
+    ry: _config_.calendar.ry
+  }
+
+  setInterval(() => {
+    updateTime()
+  }, 1000)
+
+  resetCalendarRotate()
+  domCalendarBox.onmousemove = _.throttle(updateCalendarBoxRotate, 100)
+  domCalendarBox.onmouseleave = (e) => setTimeout(() => resetCalendarRotate(), 200)
+
+  getWeather()
+})()

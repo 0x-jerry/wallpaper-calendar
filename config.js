@@ -5,5 +5,9 @@ const _config_ = {
     city: 'chengdu',
     // seconds
     updateRate: 30 * 60 
+  },
+  calendar: {
+    rx: 0,
+    ry: 0
   }
 }
