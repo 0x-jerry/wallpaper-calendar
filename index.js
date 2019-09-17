@@ -2,7 +2,7 @@ function weatherCallback(responses) {
   const res = responses.results[0]
   const domTemperature = document.getElementById('temperature')
 
-  domTemperature.innerText = res.location.name + ' ~ ' + res.now.temperature + ' °C'
+  domTemperature.innerText = res.location.name + '(' + res.now.text + ') ~ ' + res.now.temperature + ' °C'
 
   if (res.last_update_time) {
     console.log('from cache', res)
@@ -233,7 +233,7 @@ function weatherCallback(responses) {
 
   const nodes = document.getElementsByClassName('card-box')
   const viewerUpdateRate = 100
-  
+
   for (const node of nodes) {
     node.onmousemove = _.throttle(updateViewer, viewerUpdateRate)
     node.onmouseleave = () => setTimeout(() => updateViewerView(), viewerUpdateRate + 10)
